@@ -39,8 +39,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     String phoneNumber = phoneNoController.text.trim();
 
     if (country != null && phoneNumber.isNotEmpty) {
-      print("+${country!.phoneCode}$phoneNumber");
-      ref.read(authControllerProvider).signInWithPhone(context, "+${country!.phoneCode}$phoneNumber");
+      ref
+          .read(authControllerProvider)
+          .signInWithPhone(context, "+${country!.phoneCode}$phoneNumber");
     }
   }
 
@@ -51,7 +52,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: backgroundColor,
-        title: const Text("Enter your Phone Number " , style: TextStyle(fontSize: 16),),
+        title: const Text(
+          "Enter your Phone Number ",
+          style: TextStyle(fontSize: 16),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -83,7 +87,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     child: TextField(
                       controller: phoneNoController,
                       keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(hintText: "Phone number"),
+                      decoration:
+                          const InputDecoration(hintText: "Phone number"),
                     ),
                   )
                 ],

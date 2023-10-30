@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class LandingScreen extends StatelessWidget {
   const LandingScreen({super.key});
 
-  void NavigateToLoginScreen(BuildContext context) {
+  void navigateToLoginScreen(BuildContext context) {
     Navigator.pushNamed(context, LoginScreen.routeName);
   }
 
@@ -51,7 +51,7 @@ class LandingScreen extends StatelessWidget {
             SizedBox(
               width: size.width * 0.75,
               child: CustomButton(
-                  onPressed: () => NavigateToLoginScreen(context),
+                  onPressed: () => navigateToLoginScreen(context),
                   text: "AGREE AND CONTINUE"),
             ),
           ],
