@@ -23,14 +23,15 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     nameController.dispose();
   }
 
-  void selectImage() async {
-    final selected = await imagePickerFromGallery(context);
-    image = selected;
-    setState(() async {});
-  }
-
   @override
   Widget build(BuildContext context) {
+    void selectImage() async {
+      final selected = await imagePickerFromGallery(context);
+      setState(() {
+        image = selected;
+      });
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -55,7 +56,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         : CircleAvatar(
                             backgroundImage: FileImage(image!),
                             backgroundColor: Colors.white,
-                            radius: 40,
+                            radius: 50,
                           ),
                     const Positioned(
                       bottom: 0,

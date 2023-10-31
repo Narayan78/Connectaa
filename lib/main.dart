@@ -1,5 +1,4 @@
 import 'package:connectaa/colors.dart';
-import 'package:connectaa/features/auth/screens/login_screen.dart';
 import 'package:connectaa/features/auth/screens/user_info.dart';
 import 'package:connectaa/features/landing/landing_screen.dart';
 import 'package:connectaa/firebase_options.dart';
@@ -33,7 +32,7 @@ class MyApp extends StatelessWidget {
             color: appBarColor,
           )),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: const LandingScreen(),
+      home: const UserInfoScreen(),
     );
   }
 }
