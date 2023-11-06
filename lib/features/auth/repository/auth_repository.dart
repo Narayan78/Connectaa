@@ -63,7 +63,7 @@ class AuthRepository {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationID, smsCode: userOTP);
       await auth.signInWithCredential(credential);
-      // ignore: use_build_context_synchronously
+ 
       Navigator.pushNamedAndRemoveUntil(
           context, UserInfoScreen.routeName, (route) => false);
     } on FirebaseAuthException catch (e) {
