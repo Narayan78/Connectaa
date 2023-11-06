@@ -1,19 +1,21 @@
 import 'dart:io';
-
 import 'package:connectaa/colors.dart';
+import 'package:connectaa/common/common_widgets/custom_button.dart';
 import 'package:connectaa/common/utiles/utiles.dart';
+import 'package:connectaa/features/auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class UserInfoScreen extends StatefulWidget {
+class UserInfoScreen extends ConsumerStatefulWidget {
   static const String routeName = '/user-info';
 
   const UserInfoScreen({super.key});
 
   @override
-  State<UserInfoScreen> createState() => _UserInfoScreenState();
+  ConsumerState<UserInfoScreen> createState() => _UserInfoScreenState();
 }
 
-class _UserInfoScreenState extends State<UserInfoScreen> {
+class _UserInfoScreenState extends ConsumerState<UserInfoScreen> {
   final TextEditingController nameController = TextEditingController();
   File? image;
 
@@ -30,6 +32,15 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       setState(() {
         image = selected;
       });
+    }
+
+    void storeUserData() async {
+      String name = nameController.text.trim();
+      if (name.isNotEmpty) {
+        ref
+            .read(authControllerProvider)
+            .saveUserDataToFirebase(context, name, image);
+      }
     }
 
     return Scaffold(
@@ -109,6 +120,19 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 200,
+                          child: CustomButton(
+                              onPressed: storeUserData, text: 'Done'),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),

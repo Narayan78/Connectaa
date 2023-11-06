@@ -1,5 +1,7 @@
 import 'package:connectaa/colors.dart';
-import 'package:connectaa/features/auth/screens/user_info.dart';
+import 'package:connectaa/common/common_widgets/error.dart';
+import 'package:connectaa/features/auth/controller/auth_controller.dart';
+import 'package:connectaa/features/auth/screens/finalPage.dart';
 import 'package:connectaa/features/landing/landing_screen.dart';
 import 'package:connectaa/firebase_options.dart';
 import 'package:connectaa/router.dart';
@@ -19,11 +21,11 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context , WidgetRef ref) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
@@ -32,7 +34,16 @@ class MyApp extends StatelessWidget {
             color: appBarColor,
           )),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: const UserInfoScreen(),
+      home: ref.watch(userDataProvider).when(data: (user){
+        if(user == null){
+          return const LandingScreen();
+        }
+         return const HomePage();
+      }, error: (error , trace){
+        return ErrorScreen(error: error.toString());
+      }, loading: ()  {
+        return const Center(child:  CircularProgressIndicator());
+      }),
     );
   }
 }
