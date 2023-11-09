@@ -1,8 +1,8 @@
 import 'package:connectaa/colors.dart';
 import 'package:connectaa/common/common_widgets/error.dart';
 import 'package:connectaa/features/auth/controller/auth_controller.dart';
-import 'package:connectaa/features/auth/screens/finalPage.dart';
 import 'package:connectaa/features/landing/landing_screen.dart';
+import 'package:connectaa/features/select_contact/screens/mobile_screen.dart';
 import 'package:connectaa/firebase_options.dart';
 import 'package:connectaa/router.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -38,7 +38,7 @@ class MyApp extends ConsumerWidget {
         if(user == null){
           return const LandingScreen();
         }
-         return const HomePage();
+         return const MobileScreenLayout();
       }, error: (error , trace){
         return ErrorScreen(error: error.toString());
       }, loading: ()  {

@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectaa/common/repository/common_firebase_repository.dart';
 import 'package:connectaa/common/utiles/utiles.dart';
-import 'package:connectaa/features/auth/screens/finalPage.dart';
 import 'package:connectaa/features/auth/screens/otp_screen.dart';
 import 'package:connectaa/features/auth/screens/user_info.dart';
+import 'package:connectaa/features/select_contact/screens/mobile_screen.dart';
 import 'package:connectaa/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +63,7 @@ class AuthRepository {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationID, smsCode: userOTP);
       await auth.signInWithCredential(credential);
- 
+
       Navigator.pushNamedAndRemoveUntil(
           context, UserInfoScreen.routeName, (route) => false);
     } on FirebaseAuthException catch (e) {
@@ -98,7 +98,7 @@ class AuthRepository {
       await firestore.collection('users').doc(uid).set(user.toMap());
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
+          MaterialPageRoute(builder: (context) => const MobileScreenLayout()),
           (route) => false);
     } catch (e) {
       showSnackBar(context: context, message: e.toString());

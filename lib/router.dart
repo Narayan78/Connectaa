@@ -1,8 +1,8 @@
 import 'package:connectaa/common/common_widgets/error.dart';
-import 'package:connectaa/features/auth/screens/finalPage.dart';
 import 'package:connectaa/features/auth/screens/login_screen.dart';
 import 'package:connectaa/features/auth/screens/otp_screen.dart';
 import 'package:connectaa/features/auth/screens/user_info.dart';
+import 'package:connectaa/features/select_contact/screens/mobile_screen.dart';
 import 'package:flutter/material.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -23,9 +23,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         builder: (context) => const UserInfoScreen(),
       );
 
-      case HomePage.routeName:
+ 
+
+      case MobileScreenLayout.routeName:
        return MaterialPageRoute(
-        builder: (context) => const HomePage(),
+        builder: (context) => const MobileScreenLayout(),
       );
      
 
