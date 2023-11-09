@@ -1,5 +1,6 @@
 import 'package:connectaa/colors.dart';
 import 'package:connectaa/common/utiles/UI/contact_list.dart';
+import 'package:connectaa/features/select_contact/screens/select_contact_screen.dart';
 import 'package:flutter/material.dart';
 
 class MobileScreenLayout extends StatelessWidget {
@@ -53,7 +54,9 @@ static const routeName = '/MobileScreen_layout';
         ),
          body: const ContactList(),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, SelectContactScreen.routeName);
+          },
           backgroundColor: tabColor,
           child: const Icon(
             Icons.comment,
