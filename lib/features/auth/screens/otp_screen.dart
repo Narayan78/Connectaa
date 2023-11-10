@@ -26,31 +26,33 @@ class OTPScreen extends ConsumerWidget {
           style: TextStyle(fontSize: 16),
         ),
       ),
-      body: Center(
-          child: Column(
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          const Text("Enter an OTP Code"),
-          const SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            width: size.width * 0.5,
-            child: TextField(
-              textAlign: TextAlign.center,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(hintText: "- - - - - -"),
-              onChanged: (val) {
-                if (val.length == 6) {
-                  verifyOTP(context, val.trim(), ref);
-                }
-              },
+      body: SingleChildScrollView(
+        child: Center(
+            child: Column(
+          children: [
+            const SizedBox(
+              height: 20,
             ),
-          )
-        ],
-      )),
+            const Text("Enter an OTP Code"),
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              width: size.width * 0.5,
+              child: TextField(
+                textAlign: TextAlign.center,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(hintText: "- - - - - -"),
+                onChanged: (val) {
+                  if (val.length == 6) {
+                    verifyOTP(context, val.trim(), ref);
+                  }
+                },
+              ),
+            )
+          ],
+        )),
+      ),
     );
   }
 }

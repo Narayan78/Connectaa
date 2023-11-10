@@ -1,4 +1,5 @@
 import 'package:connectaa/common/common_widgets/error.dart';
+import 'package:connectaa/common/utiles/UI/mobile_chat_screen.dart';
 import 'package:connectaa/features/auth/screens/login_screen.dart';
 import 'package:connectaa/features/auth/screens/otp_screen.dart';
 import 'package:connectaa/features/auth/screens/user_info.dart';
@@ -32,6 +33,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case SelectContactScreen.routeName:
       return MaterialPageRoute(
         builder: (context) => const SelectContactScreen(),
+      );
+
+    case MobileChatScreen.routeName:
+    final arguments = settings.arguments as Map<String , dynamic>;
+    final userName = arguments['name'];
+    final userUid = arguments['uid'];
+      return MaterialPageRoute(
+        builder: (context) =>  MobileChatScreen(name: userName , uid: userUid),
       );
 
     default:

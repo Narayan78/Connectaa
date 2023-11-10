@@ -9,11 +9,12 @@ final authControllerProvider = Provider((ref) {
   return AuthController(authRepository: AuthRepository, ref: ref);
 });
 
-
-final userDataProvider = FutureProvider((ref)  {
-  final authController = ref.watch(authControllerProvider);
-  return authController.getUserData(); 
-});
+final userDataProvider = FutureProvider(
+  (ref) {
+    final authController = ref.watch(authControllerProvider);
+    return authController.getUserData();
+  },
+);
 
 class AuthController {
   final ProviderRef ref;
@@ -21,8 +22,7 @@ class AuthController {
 
   AuthController({required this.authRepository, required this.ref});
 
-
-// Controller Function to get Current user information 
+  // Controller Function to get Current user information
   Future<UserModel?> getUserData() async {
     UserModel? user = await authRepository.getCurrentUserData();
     return user;
@@ -45,5 +45,9 @@ class AuthController {
   ) {
     authRepository.saveUserDataToFirebase(
         profilePic: profilePic, name: name, ref: ref, context: context);
+  }
+
+  Stream<UserModel> userDataById(String userId) {
+    return authRepository.userData(userId);
   }
 }
