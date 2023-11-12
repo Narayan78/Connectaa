@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:connectaa/common/utiles/UI/mobile_chat_screen.dart';
+import 'package:connectaa/features/chat/screens/mobile_chat_screen.dart';
 import 'package:connectaa/common/utiles/utiles.dart';
 import 'package:connectaa/models/user_model.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
 import 'package:connectaa/common/common_widgets/error.dart';
-import 'package:connectaa/common/utiles/UI/mobile_chat_screen.dart';
+import 'package:connectaa/features/chat/screens/mobile_chat_screen.dart';
 import 'package:connectaa/features/auth/screens/login_screen.dart';
 import 'package:connectaa/features/auth/screens/otp_screen.dart';
 import 'package:connectaa/features/auth/screens/user_info.dart';

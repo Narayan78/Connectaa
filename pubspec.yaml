@@ -43,6 +43,7 @@ dependencies:
   flutter_riverpod: ^2.4.4
   image_picker: ^1.0.4
   flutter_contacts: ^1.1.7+1
+  uuid: ^4.2.1
 
 dev_dependencies:
   flutter_test:
