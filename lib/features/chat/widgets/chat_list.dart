@@ -1,27 +1,68 @@
-import 'package:connectaa/colors.dart';
-import 'package:connectaa/common/utiles/UI/info.dart';
-import 'package:flutter/material.dart';
 
-class ChatList extends StatelessWidget {
-  const ChatList({super.key});
+import 'package:connectaa/colors.dart';
+import 'package:connectaa/features/chat/controller/chat_controller.dart';
+import 'package:connectaa/models/message_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+
+class ChatList extends ConsumerStatefulWidget {
+  final String recieverUserId;
+  const ChatList({super.key, required this.recieverUserId});
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _ChatListState();
+}
+
+class _ChatListState extends ConsumerState<ChatList> {
+  final ScrollController messageScrollController = ScrollController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    messageScrollController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.builder(
-          itemCount: messages.length,
-          itemBuilder: (context, index) {
-            if (messages[index]["isMe"] == true) {
-              return MyChatListCard(
-                message: messages[index]["text"].toString(),
-                date: messages[index]["time"].toString(),
-              );
-            } else {
-              return SenderChatListCard(
-                message: messages[index]["text"].toString(),
-                date: messages[index]["time"].toString(),
+      child: StreamBuilder<List<MessageModel>>(
+          stream: ref
+              .watch(chatControllerProvider)
+              .chatStream(widget.recieverUserId),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
               );
             }
+
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              messageScrollController
+                  .jumpTo(messageScrollController.position.maxScrollExtent);
+            });
+
+            return ListView.builder(
+              controller: messageScrollController,
+                itemCount: snapshot.data?.length ?? 0,
+                itemBuilder: (context, index) {
+                  var messageData = snapshot.data![index];
+                  var timeFormat = DateFormat.Hm().format(messageData.timeSent);
+                  if (messageData.senderId ==
+                      FirebaseAuth.instance.currentUser!.uid) {
+                    return MyChatListCard(
+                      message: messageData.text,
+                      date: timeFormat,
+                    );
+                  } else {
+                    return SenderChatListCard(
+                      message: messageData.text,
+                      date: timeFormat,
+                    );
+                  }
+                });
           }),
     );
   }
@@ -40,7 +81,7 @@ class MyChatListCard extends StatelessWidget {
         constraints: BoxConstraints(
           maxWidth: MediaQuery.of(context).size.width - 45,
         ),
-        child: Card(  
+        child: Card(
           elevation: 100,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
@@ -118,17 +159,15 @@ class SenderChatListCard extends StatelessWidget {
                   children: [
                     Text(
                       date,
-                      style:
-                          const TextStyle(fontSize: 13, color: Color.fromARGB(92, 255, 255, 255)),
+                      style: const TextStyle(
+                          fontSize: 13,
+                          color: Color.fromARGB(92, 255, 255, 255)),
                     ),
                     const SizedBox(
                       width: 5,
                     ),
-                    const Icon(
-                      Icons.done_all,
-                      size: 18,
-                      color: Color.fromARGB(92, 255, 255, 255)
-                    )
+                    const Icon(Icons.done_all,
+                        size: 18, color: Color.fromARGB(92, 255, 255, 255))
                   ],
                 ),
               )

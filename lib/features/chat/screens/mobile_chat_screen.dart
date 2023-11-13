@@ -1,5 +1,5 @@
 import 'package:connectaa/colors.dart';
-import 'package:connectaa/common/utiles/UI/chat_list.dart';
+import 'package:connectaa/features/chat/widgets/chat_list.dart';
 import 'package:connectaa/features/chat/widgets/buttom_chat_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -50,7 +50,9 @@ class MobileChatScreen extends ConsumerWidget {
       body:  Column(
         children: [
           Expanded(
-            child: ChatList(),
+            child: ChatList(
+              recieverUserId: uid,
+            ),
           ),
           ButtomChatField( recieverUserId: uid),
         ],

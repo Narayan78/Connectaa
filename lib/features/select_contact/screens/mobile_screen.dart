@@ -1,5 +1,5 @@
 import 'package:connectaa/colors.dart';
-import 'package:connectaa/common/utiles/UI/contact_list.dart';
+import 'package:connectaa/features/chat/widgets/contact_list.dart';
 import 'package:connectaa/features/select_contact/screens/select_contact_screen.dart';
 import 'package:flutter/material.dart';
 

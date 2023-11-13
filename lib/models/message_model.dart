@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectaa/common/enums/message_enums.dart';
 
 class MessageModel {
@@ -24,7 +25,7 @@ class MessageModel {
       senderId: map['senderId'],
       recieverId: map['recieverId'],
       text: map['text'],
-      timeSent: map['timeSent'],
+      timeSent: (map['timeSent'] as Timestamp).toDate(),
       messageId: map['messageId'],
       type: map['type'].toString().toEnum(),
       isSeen: map['isSeen'],

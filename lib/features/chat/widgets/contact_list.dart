@@ -2,7 +2,7 @@ import 'package:connectaa/colors.dart';
 import 'package:connectaa/features/chat/screens/mobile_chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../features/chat/controller/chat_controller.dart';
+import '../controller/chat_controller.dart';
 import '../../../models/chat_contact_model.dart';
 
 class ContactList extends ConsumerWidget {
@@ -26,17 +26,15 @@ class ContactList extends ConsumerWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>  MobileChatScreen(
-                            name: chatContactData.name,
-                            uid: chatContactData.contactId,
-                          ),
-                        ),
+                      Navigator.pushNamed(context, MobileChatScreen.routeName,
+                        arguments: {
+                          'name': chatContactData.name,
+                          'uid': chatContactData.contactId,
+                        },
                       );
                     },
                     child: Padding(
-                      padding:  EdgeInsets.only(bottom: 8),
+                      padding:  EdgeInsets.only(bottom: 1),
                       child: ListTile(
                         title: Text(
                           chatContactData.name,
@@ -52,6 +50,7 @@ class ContactList extends ConsumerWidget {
                         leading: CircleAvatar(
                           backgroundImage:
                             NetworkImage(chatContactData.profilePic),
+                            radius: 25,
                         ),
                         trailing: Text(
                            chatContactData.timeSent.hour.toString() +

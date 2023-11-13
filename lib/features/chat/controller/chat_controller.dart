@@ -1,6 +1,7 @@
 import 'package:connectaa/features/auth/controller/auth_controller.dart';
 import 'package:connectaa/features/chat/repository/chat_repository.dart';
 import 'package:connectaa/models/chat_contact_model.dart';
+import 'package:connectaa/models/message_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,6 +25,10 @@ class ChatController {
   Stream<List<ChatContactModel>> ChatContact () {
     print("This Controller funcion is called function is called");
     return chatRepository.getChatContacts();
+  }
+
+  Stream<List<MessageModel>> chatStream(String recieverUserId) {
+    return chatRepository.getChatStream(recieverUserId);
   }
 
   void sendTextMessage(
