@@ -1,5 +1,6 @@
 import 'package:connectaa/features/auth/controller/auth_controller.dart';
 import 'package:connectaa/features/chat/repository/chat_repository.dart';
+import 'package:connectaa/models/chat_contact_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,15 +21,18 @@ class ChatController {
     required this.ref,
   });
 
+  Stream<List<ChatContactModel>> ChatContact () {
+    print("This Controller funcion is called function is called");
+    return chatRepository.getChatContacts();
+  }
+
   void sendTextMessage(
     BuildContext context,
     String text,
     String recieverUserId,
   ) {
-    print("Controller field is called");
     ref.read(userDataProvider).whenData(
           (value) => {
-            print("data is arrived"),
             chatRepository.sendTextMessage(
               context: context,
               text: text,

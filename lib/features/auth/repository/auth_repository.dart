@@ -30,7 +30,6 @@ class AuthRepository {
     if (userData.data() != null) {
       user = UserModel.fromMap(userData.data()!);
     }
-
     return user;
   }
 

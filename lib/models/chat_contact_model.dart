@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ChatContactModel {
   final String name;
   final String profilePic;
@@ -13,15 +15,18 @@ class ChatContactModel {
     required this.lastMessage,
   });
 
-  factory ChatContactModel.fromMap(Map<String, dynamic> map) {
-    return ChatContactModel(
-      name: map['name'],
-      profilePic: map['profilePic'],
-      contactId: map['contactId'],
-      timeSent: map['timeSent'],
-      lastMessage: map['lastMessage'],
-    );
-  }
+
+ 
+factory ChatContactModel.fromMap(Map<String, dynamic> map) {
+  return ChatContactModel(
+    name: map['name'] ?? "No name",
+    profilePic: map['profilePic'] ?? "",
+    contactId: map['contactId'] ?? "",
+    timeSent: (map['timeSent'] as Timestamp).toDate(), // Convert Timestamp to DateTime
+    lastMessage: map['lastMessage'] ?? "",
+  );
+}
+
 
   Map<String, dynamic> toMap() {
     return {

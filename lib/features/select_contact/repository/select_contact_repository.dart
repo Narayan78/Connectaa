@@ -43,6 +43,7 @@ class SelectContactRepository {
       bool isFound = false;
       for (var document in userCollection.docs) {
         var userData = UserModel.fromMap(document.data());
+        print(userData);
         if (userData.phoneNumber == selectedPhoneNumber) {
           isFound = true;
           Navigator.pushNamed(context, MobileChatScreen.routeName, arguments: {
