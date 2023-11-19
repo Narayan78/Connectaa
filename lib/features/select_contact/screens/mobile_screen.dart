@@ -1,12 +1,52 @@
 import 'package:connectaa/colors.dart';
+import 'package:connectaa/features/auth/controller/auth_controller.dart';
 import 'package:connectaa/features/chat/widgets/contact_list.dart';
 import 'package:connectaa/features/select_contact/screens/select_contact_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MobileScreenLayout extends StatelessWidget {
-static const routeName = '/MobileScreen_layout';
-  
+class MobileScreenLayout extends ConsumerStatefulWidget {
+  static const routeName = '/MobileScreen_layout';
+
   const MobileScreenLayout({super.key});
+
+  @override
+  ConsumerState<MobileScreenLayout> createState() => _MobileScreenLayoutState();
+}
+
+class _MobileScreenLayoutState extends ConsumerState<MobileScreenLayout>
+    with WidgetsBindingObserver {
+
+      @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() { 
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    switch (state) {
+      case AppLifecycleState.resumed:
+      case AppLifecycleState.hidden:
+        ref.read(authControllerProvider).showOnlineStatus(true);
+        break;
+
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+        ref.read(authControllerProvider).showOnlineStatus(false);
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +92,7 @@ static const routeName = '/MobileScreen_layout';
                 )
               ]),
         ),
-         body: const ContactList(),
+        body: const ContactList(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.pushNamed(context, SelectContactScreen.routeName);

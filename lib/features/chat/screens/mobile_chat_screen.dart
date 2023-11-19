@@ -29,14 +29,24 @@ class MobileChatScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(snapshot.data!.name),
-                Text(
-                  snapshot.data!.isOnline ? "Online" : "offline",
-                  style: const TextStyle(
-                      fontSize: 13,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.grey),
-                ),
+                snapshot.data!.isOnline
+                    ? const Text(
+                        "Online.....",
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.blue),
+                      )
+                    :  const Text(
+                        "Offline",
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey),
+                      ),
+            
               ],
             );
           },
