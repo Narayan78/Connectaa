@@ -1,6 +1,7 @@
-
 import 'package:connectaa/colors.dart';
+import 'package:connectaa/common/enums/message_enums.dart';
 import 'package:connectaa/features/chat/controller/chat_controller.dart';
+import 'package:connectaa/features/chat/widgets/message_card.dart';
 import 'package:connectaa/models/message_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,41 +30,44 @@ class _ChatListState extends ConsumerState<ChatList> {
   Widget build(BuildContext context) {
     return Expanded(
       child: StreamBuilder<List<MessageModel>>(
-          stream: ref
-              .watch(chatControllerProvider)
-              .chatStream(widget.recieverUserId),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+        stream:
+            ref.watch(chatControllerProvider).chatStream(widget.recieverUserId),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-            SchedulerBinding.instance.addPostFrameCallback((_) {
-              messageScrollController
-                  .jumpTo(messageScrollController.position.maxScrollExtent);
-            });
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            messageScrollController
+                .jumpTo(messageScrollController.position.maxScrollExtent);
+          });
 
-            return ListView.builder(
-              controller: messageScrollController,
-                itemCount: snapshot.data?.length ?? 0,
-                itemBuilder: (context, index) {
-                  var messageData = snapshot.data![index];
-                  var timeFormat = DateFormat.Hm().format(messageData.timeSent);
-                  if (messageData.senderId ==
-                      FirebaseAuth.instance.currentUser!.uid) {
-                    return MyChatListCard(
-                      message: messageData.text,
-                      date: timeFormat,
-                    );
-                  } else {
-                    return SenderChatListCard(
-                      message: messageData.text,
-                      date: timeFormat,
-                    );
-                  }
-                });
-          }),
+          return ListView.builder(
+            controller: messageScrollController,
+            itemCount: snapshot.data?.length ?? 0,
+            itemBuilder: (context, index) {
+              var messageData = snapshot.data![index];
+              var timeFormat = DateFormat.Hm().format(messageData.timeSent);
+              if (messageData.senderId ==
+                  FirebaseAuth.instance.currentUser!.uid) {
+                return MyChatListCard(
+                  messageType: messageData.type,
+                  message: messageData.text,
+                  date: timeFormat,
+                );
+              } else {
+                return SenderChatListCard(
+                  messageType: messageData.type,
+                  message: messageData.text,
+                  date: timeFormat,
+                );
+              }
+            },
+          );
+        },
+      ),
     );
   }
 }
@@ -71,7 +75,12 @@ class _ChatListState extends ConsumerState<ChatList> {
 class MyChatListCard extends StatelessWidget {
   final String message;
   final String date;
-  const MyChatListCard({super.key, required this.date, required this.message});
+  final MessageEnum messageType;
+  const MyChatListCard(
+      {super.key,
+      required this.date,
+      required this.message,
+      required this.messageType});
 
   @override
   Widget build(BuildContext context) {
@@ -91,9 +100,21 @@ class MyChatListCard extends StatelessWidget {
           child: Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    bottom: 20, left: 10, right: 30, top: 5),
-                child: Text(message, style: const TextStyle(fontSize: 16)),
+                padding: messageType == MessageEnum.text
+                    ? const EdgeInsets.only(
+                        bottom: 20,
+                        left: 10,
+                        right: 30,
+                        top: 5,
+                      )
+                    : const EdgeInsets.only(
+                        bottom: 25,
+                        top: 5,
+                      ),
+                child: MessageCardChild(
+                  message: message,
+                  messageType: messageType,
+                ),
               ),
               Positioned(
                 bottom: 4,
@@ -127,8 +148,12 @@ class MyChatListCard extends StatelessWidget {
 class SenderChatListCard extends StatelessWidget {
   final String message;
   final String date;
+  final MessageEnum messageType;
   const SenderChatListCard(
-      {super.key, required this.date, required this.message});
+      {super.key,
+      required this.date,
+      required this.message,
+      required this.messageType});
 
   @override
   Widget build(BuildContext context) {
@@ -148,10 +173,12 @@ class SenderChatListCard extends StatelessWidget {
           child: Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    bottom: 20, left: 10, right: 30, top: 5),
-                child: Text(message, style: const TextStyle(fontSize: 16)),
-              ),
+                  padding: const EdgeInsets.only(
+                      bottom: 20, left: 10, right: 30, top: 5),
+                  child: MessageCardChild(
+                    message: message,
+                    messageType: messageType,
+                  )),
               Positioned(
                 bottom: 2,
                 right: 10,

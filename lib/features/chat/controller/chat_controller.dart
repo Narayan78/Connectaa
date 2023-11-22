@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:connectaa/common/enums/message_enums.dart';
 import 'package:connectaa/features/auth/controller/auth_controller.dart';
 import 'package:connectaa/features/chat/repository/chat_repository.dart';
 import 'package:connectaa/models/chat_contact_model.dart';
@@ -22,7 +25,7 @@ class ChatController {
     required this.ref,
   });
 
-  Stream<List<ChatContactModel>> ChatContact () {
+  Stream<List<ChatContactModel>> ChatContact() {
     print("This Controller funcion is called function is called");
     return chatRepository.getChatContacts();
   }
@@ -47,6 +50,22 @@ class ChatController {
           },
         );
   }
+
+  void sendFileMessage({
+    required BuildContext context,
+    required File file,
+    required String recieverUserId,
+    required MessageEnum messageType,
+  }) {
+    ref.read(userDataProvider).whenData(
+          (value) => chatRepository.sendFileMessage(
+            context: context,
+            file: file,
+            recieverUserId: recieverUserId,
+            senderUserData: value!,
+            ref: ref,
+            messageType: messageType,
+          ),
+        );
+  }
 }
-
-
