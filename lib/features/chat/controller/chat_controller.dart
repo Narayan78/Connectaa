@@ -38,7 +38,8 @@ class ChatController {
     BuildContext context,
     String text,
     String recieverUserId,
-  ) {
+  ) { 
+    print("Chat Controller sendTextMessage function is called");
     ref.read(userDataProvider).whenData(
           (value) => {
             chatRepository.sendTextMessage(

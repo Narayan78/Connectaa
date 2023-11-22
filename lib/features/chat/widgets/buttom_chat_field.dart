@@ -26,6 +26,7 @@ class _ButtomChatFieldState extends ConsumerState<ButtomChatField> {
             _messageController.text.trim(),
             widget.recieverUserId,
           );
+          print("sendTextMessage function is called");
     }
 
     _messageController.clear();
